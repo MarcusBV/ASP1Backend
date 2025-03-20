@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<DataContext>(x => 
+builder.Services.AddDbContext<DataContext>(x =>
     x.UseLazyLoadingProxies()
-    .UseSqlServer(builder.Configuration.GetConnectionString("AzureDB")));
+        .UseSqlServer(builder.Configuration.GetConnectionString("AzureDB")));
 
 builder.Services.AddScoped<ProjectStatusRepository>();
 builder.Services.AddScoped<ClientRepository>();
@@ -16,19 +16,20 @@ builder.Services.AddScoped<ClientService>();
 
 builder.Services.AddCors(x =>
 {
-    //x.AddPolicy("Strict", x =>
-    //{
-    //    x.WithOrigins("http://localhost:5173")
-    //     .WithMethods("GET", "POST", "PUT", "DELETE")
-    //     .WithHeaders("Content-Type", "Authorization")
-    //     .AllowCredentials();
-    //});
+    x.AddPolicy("Strict", x =>
+    {
+        x.WithOrigins("http://localhost:5173")
+         .WithMethods("GET", "POST", "PUT", "DELETE")
+         .WithHeaders("Content-Type", "Authorization")
+         .AllowCredentials();
+    });
 
     x.AddPolicy("AllowAll", x =>
     {
         x.AllowAnyOrigin()
          .AllowAnyMethod()
          .AllowAnyHeader();
+
     });
 });
 builder.Services.AddControllers();

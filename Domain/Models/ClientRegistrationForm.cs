@@ -1,8 +1,11 @@
-﻿namespace Domain.Models
+﻿using Microsoft.AspNetCore.Http;
+
+namespace Domain.Models
 {
     public class ClientRegistrationForm
     {
         //public IFormFile? image { get; set; }
+        public IFormFile? Image { get; set; }
         public string ClientName { get; set; } = null!;
         public string Email { get; set; } = null!;
         public string? Phone { get; set; }

@@ -4,17 +4,18 @@ using Domain.Models;
 
 namespace Business.Services
 {
-    public class ProjectStatusService(ProjectStatusRepository statusRepository)
+    public class ProjectStatusService(ProjectStatusRepository projectStatusRepository)
     {
-        private readonly ProjectStatusRepository _projectStatusRepository = statusRepository;
+        private readonly ProjectStatusRepository _projectStatusRepository = projectStatusRepository;
 
         public async Task<IEnumerable<ProjectStatus>> GetProjectStatuses()
         {
-            var list = await _projectStatusRepository.GetAllAsync<ProjectStatus>(
-                selector: x => ProjectStatusFactory.Map(x)
+            var list = await _projectStatusRepository.GetAllAsync(
+                selector: x => ProjectStatusFactory.Map(x)!
             );
 
-            return list;
+            return list.OrderBy(x => x.Id);
         }
     }
+
 }

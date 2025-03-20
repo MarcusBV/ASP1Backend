@@ -8,6 +8,6 @@ public class DataContext(DbContextOptions<DataContext> options) : DbContext(opti
 
     public virtual DbSet<ProjectStatusEntity> ProjectStatuses { get; set; }
     public virtual DbSet<ClientEntity> Clients { get; set; }
-    public virtual DbSet<ClientContactInformationEntity> ClientContactInformation { get; set; }
+    public virtual DbSet<ClientInformationEntity> ClientContactInformation { get; set; }
     public virtual DbSet<ClientAddressEntity> ClientAddresses { get; set; }
 }
