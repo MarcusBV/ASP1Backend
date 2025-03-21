@@ -7,10 +7,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<DataContext>(x =>
     x.UseLazyLoadingProxies()
-        .UseSqlServer(builder.Configuration.GetConnectionString("AzureDB")));
+        .UseSqlServer(builder.Configuration.GetConnectionString("AlphaDB")));
 
 builder.Services.AddScoped<ProjectStatusRepository>();
 builder.Services.AddScoped<ClientRepository>();
+builder.Services.AddScoped<ClientInformationRepository>();
+builder.Services.AddScoped<ClientAddressRepository>();
 builder.Services.AddScoped<ProjectStatusService>();
 builder.Services.AddScoped<ClientService>();
 
