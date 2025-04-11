@@ -1,5 +1,6 @@
 using Infrastructure.Data.Contexts;
 using Infrastructure.Repositories;
+using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,11 @@ builder.Services.AddScoped<ClientRepo>();
 builder.Services.AddScoped<ProjectRepo>();
 builder.Services.AddScoped<StatusRepo>();
 builder.Services.AddScoped<UserRepo>();
+
+builder.Services.AddScoped<ClientService>();
+builder.Services.AddScoped<ProjectService>();
+builder.Services.AddScoped<StatusService>();
+builder.Services.AddScoped<UserService>();
 
 builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection")));
 

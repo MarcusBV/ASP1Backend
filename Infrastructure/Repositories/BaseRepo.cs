@@ -42,13 +42,24 @@ public class BaseRepo<TEntity> where TEntity : class
         if (entity == null)
             return false;
 
-        _table.Update(entity);
-        await _context.SaveChangesAsync();
-        return true;
+        try
+        {
+            _table.Update(entity);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
     }
 
-    public virtual async Task<bool> DeleteAsync(TEntity entity)
+    public virtual async Task<bool> DeleteAsync(Expression<Func<TEntity, bool>> expression)
     {
+        if (expression == null)
+            return false;
+
+        var entity = await _table.FirstOrDefaultAsync(expression);
         if (entity == null)
             return false;
 

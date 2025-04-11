@@ -15,8 +15,6 @@ public class ProjectEntity
 
     [Column(TypeName = "date")]
     public DateTime EndDate { get; set; }
-
-    [Column(TypeName = "date")]
     public DateTime CreatedAt { get; set; } = DateTime.Now;
 
     [Column(TypeName = "money")]
