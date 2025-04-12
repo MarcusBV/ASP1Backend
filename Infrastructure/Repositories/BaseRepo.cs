@@ -20,9 +20,16 @@ public class BaseRepo<TEntity> where TEntity : class
         if (entity == null)
             return false;
 
-        await _table.AddAsync(entity);
-        await _context.SaveChangesAsync();
-        return true;
+        try
+        {
+            await _table.AddAsync(entity);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
     }
 
     public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
