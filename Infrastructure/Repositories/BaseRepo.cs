@@ -4,7 +4,16 @@ using System.Linq.Expressions;
 
 namespace Infrastructure.Repositories;
 
-public class BaseRepo<TEntity> where TEntity : class
+public interface IBaseRepo<TEntity> where TEntity : class
+{
+    Task<bool> AddAsync(TEntity entity);
+    Task<bool> DeleteAsync(Expression<Func<TEntity, bool>> expression);
+    Task<IEnumerable<TEntity>> GetAllAsync();
+    Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> expression);
+    Task<bool> UpdateAsync(TEntity entity);
+}
+
+public class BaseRepo<TEntity> : IBaseRepo<TEntity> where TEntity : class
 {
     protected readonly DataContext _context;
     protected readonly DbSet<TEntity> _table;
@@ -30,6 +39,20 @@ public class BaseRepo<TEntity> where TEntity : class
         {
             return false;
         }
+    }
+
+    public virtual async Task<bool> DeleteAsync(Expression<Func<TEntity, bool>> expression)
+    {
+        if (expression == null)
+            return false;
+
+        var entity = await _table.FirstOrDefaultAsync(expression);
+        if (entity == null)
+            return false;
+
+        _table.Remove(entity);
+        await _context.SaveChangesAsync();
+        return true;
     }
 
     public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
@@ -59,19 +82,5 @@ public class BaseRepo<TEntity> where TEntity : class
         {
             return false;
         }
-    }
-
-    public virtual async Task<bool> DeleteAsync(Expression<Func<TEntity, bool>> expression)
-    {
-        if (expression == null)
-            return false;
-
-        var entity = await _table.FirstOrDefaultAsync(expression);
-        if (entity == null)
-            return false;
-
-        _table.Remove(entity);
-        await _context.SaveChangesAsync();
-        return true;
     }
 }

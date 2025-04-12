@@ -5,7 +5,12 @@ using System.Linq.Expressions;
 
 namespace Infrastructure.Repositories;
 
-public class ProjectRepo(DataContext context) : BaseRepo<ProjectEntity>(context)
+public interface IProjectRepo : IBaseRepo<ProjectEntity>
+{
+
+}
+
+public class ProjectRepo(DataContext context) : BaseRepo<ProjectEntity>(context), IProjectRepo
 {
     public override async Task<IEnumerable<ProjectEntity>> GetAllAsync()
     {

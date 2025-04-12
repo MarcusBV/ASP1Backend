@@ -3,6 +3,11 @@ using Infrastructure.Data.Entities;
 
 namespace Infrastructure.Repositories;
 
-public class StatusRepo(DataContext context) : BaseRepo<StatusEntity>(context)
+public interface IStatusRepo : IBaseRepo<StatusEntity>
+{
+
+}
+
+public class StatusRepo(DataContext context) : BaseRepo<StatusEntity>(context), IStatusRepo
 {
 }
