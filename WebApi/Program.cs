@@ -2,6 +2,7 @@ using Infrastructure.Data.Contexts;
 using Infrastructure.Repositories;
 using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
+using WebApi.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
@@ -23,6 +24,7 @@ var app = builder.Build();
 app.MapOpenApi();
 app.UseHttpsRedirection();
 
+app.UseMiddleware<ApiKeyAuthMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
 
