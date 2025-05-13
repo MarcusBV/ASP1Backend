@@ -2,11 +2,23 @@ using Infrastructure.Data.Contexts;
 using Infrastructure.Repositories;
 using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using WebApi.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
+
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Version = "v1",
+        Title = "Alpha API Docs",
+        Description = "Documentation for Alpha API",
+    });
+});
+
 
 builder.Services.AddScoped<ClientRepo>();
 builder.Services.AddScoped<ProjectRepo>();
@@ -26,9 +38,18 @@ app.UseHttpsRedirection();
 
 app.UseCors(x => x.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
 
+app.UseSwagger();
+app.UseSwaggerUI(options =>
+{
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "Alpha API");
+    options.RoutePrefix = string.Empty;
+});
+
 app.UseMiddleware<ApiKeyAuthMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
+
+
 
 app.MapControllers();
 
